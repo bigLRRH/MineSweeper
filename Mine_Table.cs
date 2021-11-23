@@ -16,34 +16,40 @@ namespace MineSweeper
         public void Init(Mine_Grids_Information mine_Grids_Information)
         {
             this.mine_Grids_Information = mine_Grids_Information;
-            set_Table_row_And_conlum();
-            Generate_Mines();
-            Random_Flood();
-        }
-        //TableLayout行列设置
-        private void set_Table_row_And_conlum()
-        {
-            ColumnCount = mine_Grids_Information.column;
+            //TableLayout设置
+            Controls.Clear();
             RowCount = mine_Grids_Information.row;
+            ColumnCount = mine_Grids_Information.column;
+            if (ColumnCount <= RowCount)
+                Width = Height * ColumnCount / RowCount;
+            else
+                Height = Width * RowCount / ColumnCount;
             ColumnStyles.Clear();
             RowStyles.Clear();
-            for (int x = 0; x < ColumnCount; x++)
-                ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50f));
-            for (int y = 0; y < RowCount; y++)
+            for (int i = 0; i < RowCount; i++)
                 RowStyles.Add(new RowStyle(SizeType.Percent, 50f));
-        }
-        //生成地雷Mine_Grid控件
-        private void Generate_Mines()
-        {
-            mine_Grids = new Mine_Grid[mine_Grids_Information.column, mine_Grids_Information.row];
-            for (int x = 0; x < mine_Grids_Information.column; x++)
-                for (int y = 0; y < mine_Grids_Information.row; y++)
+            for (int j = 0; j < ColumnCount; j++)
+                ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50f));
+            //生成地雷Mine_Grid控件
+            mine_Grids = new Mine_Grid[RowCount, ColumnCount];
+            for (int i = 0; i < RowCount; i++)
+                for (int j = 0; j < ColumnCount; j++)
                 {
-                    Mine_Grid mine_Grid = new Mine_Grid(x, y);
-                    mine_Grids[x, y] = mine_Grid;
-                    mine_Grids[x, y].MouseDown += new MouseEventHandler(Mine_Grid_MouseDown);
-                    Controls.Add(mine_Grids[x, y]);
+                    Mine_Grid mine_Grid = new Mine_Grid(i, j);
+                    mine_Grids[i, j] = mine_Grid;
+                    mine_Grids[i, j].MouseDown += new MouseEventHandler(Mine_Grid_MouseDown);
+                    Controls.Add(mine_Grids[i, j]);
                 }
+            //开局随机洪水
+            Random rn = new Random();
+            int x = rn.Next(RowCount);
+            int y = rn.Next(ColumnCount);
+            while (mine_Grids_Information.number[x, y] > 0)
+            {
+                x = rn.Next(RowCount);
+                y = rn.Next(ColumnCount);
+            }
+            Flood_Fill(mine_Grids[x, y]);
         }
         //Mine_Grid_MouseDown事件
         private void Mine_Grid_MouseDown(object sender, MouseEventArgs e)
@@ -95,25 +101,12 @@ namespace MineSweeper
                 {
                     for (int x = mine_Grid.X - 1; x <= mine_Grid.X + 1; x++)
                         for (int y = mine_Grid.Y - 1; y <= mine_Grid.Y + 1; y++)
-                            if (x >= 0 && x < mine_Grids_Information.column && y >= 0 && y < mine_Grids_Information.row)
+                            if (x >= 0 && x < RowCount && y >= 0 && y < ColumnCount)
                             {
                                 Flood_Fill(mine_Grids[x, y]);
                             }
                 }
             }
-        }
-        //开局随机洪水
-        private void Random_Flood()
-        {
-            Random rn = new Random();
-            int x = rn.Next(mine_Grids_Information.column);
-            int y = rn.Next(mine_Grids_Information.row);
-            while(mine_Grids_Information.number[x,y]>0)
-            {
-                x = rn.Next(mine_Grids_Information.column);
-                y = rn.Next(mine_Grids_Information.row);
-            }
-            Flood_Fill(mine_Grids[x, y]);
         }
     }
 }

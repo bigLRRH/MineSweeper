@@ -127,28 +127,31 @@ namespace MineSweeper
             this.mine_Table_main.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.mine_Table_main.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.mine_Table_main.ColumnCount = 1;
+            this.mine_Table_main.ColumnCount = 2;
             this.mine_Table_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.mine_Table_main.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.mine_Table_main.Location = new System.Drawing.Point(0, 153);
+            this.mine_Table_main.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.mine_Table_main.Location = new System.Drawing.Point(0, 217);
             this.mine_Table_main.Name = "mine_Table_main";
-            this.mine_Table_main.RowCount = 1;
+            this.mine_Table_main.RowCount = 2;
             this.mine_Table_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.mine_Table_main.Size = new System.Drawing.Size(490, 490);
-            this.mine_Table_main.TabIndex = 0;
+            this.mine_Table_main.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.mine_Table_main.Size = new System.Drawing.Size(490, 542);
+            this.mine_Table_main.TabIndex = 3;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(490, 643);
-            this.Controls.Add(this.button_Face);
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(490, 758);
             this.Controls.Add(this.mine_Table_main);
+            this.Controls.Add(this.button_Face);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "MineSweeper v0.0.1";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

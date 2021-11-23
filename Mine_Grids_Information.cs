@@ -8,26 +8,26 @@ namespace MineSweeper
 {
     public class Mine_Grids_Information
     {
-        public int column { set; get; }//列数
         public int row { set; get; }//行数
+        public int column { set; get; }//列数
         //public int mines_Count_Number;
         public bool[,] isMine;//是否有地雷
         public bool[,] isExplored;//是否被探索
         public sbyte[,] number;//显示周围地雷数字
 
-        public Mine_Grids_Information(int column,int row,int mine_Count_number)
+        public Mine_Grids_Information(int row,int column,int mine_Count_number)
         {
-            this.column = column;
             this.row = row;
-            isMine = new bool[column, row];
-            isExplored = new bool[column, row];
-            number = new sbyte[column, row];
-            for(int x=0;x<column;x++)
-                for(int y=0;y<row;y++)
+            this.column = column;
+            isMine = new bool[row, column];
+            isExplored = new bool[row, column];
+            number = new sbyte[row, column];
+            for (int i = 0; i < row; i++)
+                for (int j = 0; j < column; j++)
                 {
-                    isMine[x, y] = false;
-                    isExplored[x, y] = false;
-                    number[x, y] = 0;
+                    isMine[i, j] = false;
+                    isExplored[i, j] = false;
+                    number[i, j] = 0;
                 }
             Lay_Mines(mine_Count_number);
         }
@@ -43,19 +43,18 @@ namespace MineSweeper
                     解决方案1：当雷数小于一半的时候埋雷，当雷数大于一半的时候挖雷
                     解决方案2：洗牌算法
              */
-
             Random rn = new Random();
-            int x1, y1, max = column * row;
+            int rn_i, rn_j, max = row * column;
             for (int mined_number = 0; mined_number < mines_Count_Number && mined_number < max;)
             {
-                x1 = rn.Next(column);
-                y1 = rn.Next(row);
-                if (!isMine[x1, y1])
+                rn_i = rn.Next(row);
+                rn_j = rn.Next(column);
+                if (!isMine[rn_i, rn_j])
                 {
-                    isMine[x1, y1] = true;
-                    for (int i = x1 - 1; i <= x1 + 1; i++)
-                        for (int j = y1 - 1; j <= y1 + 1; j++)
-                            if (i >= 0 && i < column && j >= 0 && j < row)
+                    isMine[rn_i, rn_j] = true;
+                    for (int i = rn_i - 1; i <= rn_i + 1; i++)
+                        for (int j = rn_j - 1; j <= rn_j + 1; j++)
+                            if (i >= 0 && i < row && j >= 0 && j < column)
                                 number[i, j]++;
                     mined_number++;
                 }
